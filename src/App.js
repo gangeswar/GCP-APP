@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import axios from 'axios'
 
 import Image from './image'
+import './App.css'
 
 class App extends Component {
 
@@ -12,7 +13,7 @@ class App extends Component {
   }
 
   componentWillMount(){
-    axios.get('http://35.223.117.211:8080/').then((res) => {
+    axios.get('http://localhost:8080/').then((res) => {
      this.setState({img: res.data.data});
     }).catch(err => {
       console.log(err)
@@ -28,13 +29,13 @@ class App extends Component {
   uploadImage = () => {
     const formData = new FormData();
     formData.append("file", this.state.selectFile);
-    axios.post('http://35.223.117.211:8080/image/', formData,{
+    axios.post('http://localhost:8080/image/', formData,{
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((res) => {
       this.setState({message: res.data.message})
-      axios.get('http://35.223.117.211:8080/').then((res) => {
+      axios.get('http://localhost:8080/').then((res) => {
         this.setState({img: res.data.data});
        }).catch(err => {
          console.log(err)
@@ -42,6 +43,19 @@ class App extends Component {
     }).catch(err => {
       this.setState({message: 'Please upload Valid file'})
     });
+  }
+  
+  deleteImage = (id) => {
+    axios.delete(`http://localhost:8080/image/${id}`).then((res) => {
+      this.setState({message: res.data.message});
+      axios.get('http://localhost:8080/').then((res) => {
+        this.setState({img: res.data.data});
+       }).catch(err => {
+         console.log(err)
+       });
+     }).catch(err => {
+       console.log(err)
+     });
   }
   
 
@@ -52,8 +66,10 @@ class App extends Component {
         <div>
           <button onClick = {this.uploadImage}>Upload</button>
         </div>
-    <h4>{this.state.message}</h4>
-        <Image img={this.state.img} />
+          <h4>{this.state.message}</h4>
+        <div class="row">
+          <Image img={this.state.img} deleteImage ={this.deleteImage} />
+        </div>
       </div>
     );
   }
