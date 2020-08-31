@@ -1,0 +1,6 @@
+mkdir directory-create
+gsutil rsync -r gs://bucket-name ./directory-create
+
+
+react application link - https://rugged-weaver-287614.el.r.appspot.com/
+

@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   componentWillMount(){
-    axios.get('http://localhost:8080/').then((res) => {
+    axios.get('http://35.223.212.62/').then((res) => {
      this.setState({img: res.data.data});
     }).catch(err => {
       console.log(err)
@@ -29,13 +29,13 @@ class App extends Component {
   uploadImage = () => {
     const formData = new FormData();
     formData.append("file", this.state.selectFile);
-    axios.post('http://localhost:8080/image/', formData,{
+    axios.post('http://35.223.212.62/image/', formData,{
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((res) => {
       this.setState({message: res.data.message})
-      axios.get('http://localhost:8080/').then((res) => {
+      axios.get('http://35.223.212.62/').then((res) => {
         this.setState({img: res.data.data});
        }).catch(err => {
          console.log(err)
@@ -46,9 +46,9 @@ class App extends Component {
   }
   
   deleteImage = (id) => {
-    axios.delete(`http://localhost:8080/image/${id}`).then((res) => {
+    axios.delete(`http://35.223.212.62/image/${id}`).then((res) => {
       this.setState({message: res.data.message});
-      axios.get('http://localhost:8080/').then((res) => {
+      axios.get('http://35.223.212.62/').then((res) => {
         this.setState({img: res.data.data});
        }).catch(err => {
          console.log(err)
